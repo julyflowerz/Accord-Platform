@@ -5,7 +5,7 @@ function App() {
   return (
     <main className="app">
       <h1 className="app-title">Accord Built</h1>
-      <h3 className="app-subtitle">A 3D engine viewer built with React and Three.js</h3>
+      <h3 className="app-subtitle">A 3D engine viewer</h3>
 
       <button className="exploded-btn">
         Exploded View
