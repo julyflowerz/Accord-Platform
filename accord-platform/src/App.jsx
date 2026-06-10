@@ -9,7 +9,8 @@ import EngineViewer from './EngineViewer'
 function App() {
   return (
     <div>
-      <h1>Accord Platform</h1>
+      <h1>Accord Built</h1>
+      <h3>Engine Viewer</h3>
       <EngineViewer />
     </div>
   )
