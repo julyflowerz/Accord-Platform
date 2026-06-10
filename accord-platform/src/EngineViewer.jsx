@@ -102,7 +102,7 @@ function getPartFromMeshName(name) {
   )
 }
 
-function EngineModel({ hoveredPart, setHoveredPart, setSelectedPart, exploded }) {
+function EngineModel({ hoveredPart, setHoveredPart, setSelectedPart, exploded, setMousePosition }) {
   const { scene } = useGLTF('/Model/inline4_engine_block.glb')
   const model = useMemo(() => scene.clone(true), [scene])
   const clickableMeshes = useRef([])
@@ -167,34 +167,49 @@ function EngineModel({ hoveredPart, setHoveredPart, setSelectedPart, exploded })
 
   return (
     <primitive
-      object={model}
-      scale={0.02}
-      position={[0, 0, 0]}
-      rotation={[0, 0, 0]}
-      onPointerOver={(e) => {
-        const part = e.object.userData.part
-        if (!part) return
+  object={model}
+  scale={0.02}
+  position={[0, 0, 0]}
+  rotation={[0, 0, 0]}
+  onPointerOver={(e) => {
+    const part = e.object.userData.part
+    if (!part) return
 
-        e.stopPropagation()
-        document.body.style.cursor = 'pointer'
-        setHoveredPart(part)
-      }}
-      onPointerOut={(e) => {
-        const part = e.object.userData.part
-        if (!part) return
+    e.stopPropagation()
+    document.body.style.cursor = 'pointer'
+    setHoveredPart(part)
+  }}
+  onPointerMove={(e) => {
+    const part = e.object.userData.part
+    if (!part) return
 
-        e.stopPropagation()
-        document.body.style.cursor = 'default'
-        setHoveredPart(null)
-      }}
-      onClick={(e) => {
-        const part = e.object.userData.part
-        if (!part) return
+    e.stopPropagation()
 
-        e.stopPropagation()
-        setSelectedPart(part)
-      }}
-    />
+    const event = e.nativeEvent || e.sourceEvent || e
+
+    setMousePosition({
+      x: event.clientX + 18,
+      y: event.clientY + 18
+    })
+
+    setHoveredPart(part)
+  }}
+  onPointerOut={(e) => {
+    const part = e.object.userData.part
+    if (!part) return
+
+    e.stopPropagation()
+    document.body.style.cursor = 'default'
+    setHoveredPart(null)
+  }}
+  onClick={(e) => {
+    const part = e.object.userData.part
+    if (!part) return
+
+    e.stopPropagation()
+    setSelectedPart(part)
+  }}
+/>
   )
 }
 
@@ -343,6 +358,7 @@ export default function EngineViewer() {
   const [hoveredPart, setHoveredPart] = useState(null)
   const [selectedPart, setSelectedPart] = useState(null)
   const [exploded, setExploded] = useState(false)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
   if (selectedPart) {
     return (
@@ -383,6 +399,7 @@ export default function EngineViewer() {
                 setHoveredPart={setHoveredPart}
                 setSelectedPart={setSelectedPart}
                 exploded={exploded}
+                setMousePosition={setMousePosition}
               />
               <Environment preset="warehouse" />
             </Suspense>

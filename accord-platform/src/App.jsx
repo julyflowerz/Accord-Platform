@@ -1,19 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
-
-import EngineViewer from './EngineViewer'
+import "./App.css";
+import EngineViewer from "./EngineViewer";
 
 function App() {
   return (
-    <div>
-      <h1>Accord Built</h1>
-      <h3>Engine Viewer</h3>
+    <main className="app">
+      <h1 className="app-title">Accord Built</h1>
+      <h3 className="app-subtitle">A 3D engine viewer built with React and Three.js</h3>
+
+      <button className="exploded-btn">
+        Exploded View
+      </button>
+
       <EngineViewer />
-    </div>
-  )
+
+      <div className="controls-box">
+        <strong>Controls</strong>
+        <br />
+        Left click + drag: move
+        <br />
+        Right click + drag: rotate
+        <br />
+        Scroll: zoom
+      </div>
+    </main>
+  );
 }
 
-export default App
+export default App;
